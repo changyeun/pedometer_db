@@ -9,6 +9,7 @@ import 'dart:io';
 
 import 'package:pedometer/pedometer.dart';
 import 'package:pedometer_db/provider/step_provider.dart';
+import 'package:sqflite/sqflite.dart';
 
 import 'package:flutter/services.dart';
 
@@ -40,7 +41,7 @@ class PedometerDb {
     required DateTime timeStamp,
     required int steps,
   }) async {
-    await _stepProvider.db.insert(
+    await _stepProvider.db?.insert(
       tableName, // table name
       {
         'total': steps,
