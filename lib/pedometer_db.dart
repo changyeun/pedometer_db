@@ -47,7 +47,7 @@ class PedometerDb {
         'total': steps,
         'last': steps,
         'timestamp': timeStamp.millisecondsSinceEpoch,
-        'plus': 0,
+        'plus': steps,
       }, // new post row data
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
