@@ -43,7 +43,7 @@ class PedometerDb {
   }) async {
 
     print('adsfasdfadsfdas');
-    print(_stepProvider.getLastStep());
+    print(await _stepProvider.getLastStep());
 
     await _stepProvider.db?.insert(
       tableName, // table name
