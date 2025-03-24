@@ -41,6 +41,10 @@ class PedometerDb {
     required DateTime timeStamp,
     required int steps,
   }) async {
+
+    print('adsfasdfadsfdas');
+    print(_stepProvider.getLastStep());
+
     await _stepProvider.db?.insert(
       tableName, // table name
       {
