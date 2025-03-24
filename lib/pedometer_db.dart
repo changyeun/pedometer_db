@@ -50,8 +50,8 @@ class PedometerDb {
     await _stepProvider.db?.insert(
       tableName, // table name
       {
-        'total': step?.total ?? 0,
-        'last': step?.last ?? 0,
+        'total': (step?.total ?? 0)+1,
+        'last': (step?.last ?? 0)+1,
         'timestamp': timeStamp.millisecondsSinceEpoch,
         'plus': 1,
       }, // new post row data
