@@ -40,7 +40,9 @@ class PedometerDb {
 
   Future<void> insertStepData({
     required DateTime timeStamp,
-    required int steps,
+    required int total,
+    required int last,
+    required int plus
   }) async {
 
     Step? step = await _stepProvider.getLastStep();
@@ -54,10 +56,10 @@ class PedometerDb {
     await _stepProvider.db?.insert(
       tableName, // table name
       {
-        'total': steps,
-        'last': steps,
+        'total': total,
+        'last': last,
         'timestamp': timeStamp.millisecondsSinceEpoch,
-        'plus': steps,
+        'plus': plus,
       }, // new post row data
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
