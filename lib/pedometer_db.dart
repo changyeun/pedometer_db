@@ -13,6 +13,7 @@ import 'package:sqflite/sqflite.dart';
 
 import 'package:flutter/services.dart';
 
+import 'model/step.dart';
 import 'pedometer_db_method_channel.dart';
 
 class PedometerDb {
@@ -42,8 +43,13 @@ class PedometerDb {
     required int steps,
   }) async {
 
+    Step? step = await _stepProvider.getLastStep();
     print('adsfasdfadsfdas');
-    print(await _stepProvider.getLastStep());
+    print(step?.id ?? 0);
+    print(step?.total ?? 0);
+    print(step?.last ?? 0);
+    print(step?.plus ?? 0);
+    print(step?.timestamp ?? 0);
 
     await _stepProvider.db?.insert(
       tableName, // table name
