@@ -4,6 +4,7 @@ import 'package:pedometer_db/model/step.dart';
 import 'package:sqflite/sqflite.dart';
 
 final String tableName = 'steps';
+final String tableNameAcc = 'Accelerometers';
 
 class StepProvider {
   Database? db;
@@ -58,7 +59,7 @@ class StepProvider {
         total = (lastStep.total ?? 0) + plus;
       } else {
         //재부팅이 되지 않고 계속 쌓일 경우
-        total = event.steps + plus;
+        total = (lastStep.total ?? 0) + plus;
       }
     }
 
@@ -71,6 +72,22 @@ class StepProvider {
         'last': last,
         'timestamp': timestamp,
         'plus': plus,
+      }, // new post row data
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+  }
+
+  Future<void> insertAccData({
+    required DateTime timeStamp
+  }) async {
+    Step? lastAccStep = await getLastAccStep();
+    int total = (lastAccStep?.total ?? 0) + 1;
+    debugPrint("** insertData total: $total, timestamp: ${timeStamp.millisecondsSinceEpoch}");
+    await db?.insert(
+      tableName, // table name
+      {
+        'total': total,
+        'timestamp': timeStamp.millisecondsSinceEpoch,
       }, // new post row data
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
@@ -99,6 +116,13 @@ class StepProvider {
 
   Future<Step?> getLastStep() async {
     List<Map<String, Object?>>? maps = await db?.rawQuery('SELECT * from $tableName ORDER BY id DESC limit 1');
+    if (maps == null) return null;
+    if (maps.isEmpty) return null;
+    return Step.fromMap(maps.first);
+  }
+
+  Future<Step?> getLastAccStep() async {
+    List<Map<String, Object?>>? maps = await db?.rawQuery('SELECT * from $tableNameAcc ORDER BY id DESC limit 1');
     if (maps == null) return null;
     if (maps.isEmpty) return null;
     return Step.fromMap(maps.first);
