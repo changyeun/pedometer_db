@@ -45,7 +45,7 @@ class StepProvider {
 
     //create index
     await db.execute('''
-    CREATE INDEX idx_timestamp ON steps (timestamp ASC)
+    CREATE INDEX idx_timestamp ON $tableName (timestamp ASC)
     ''');
   }
 
@@ -62,7 +62,7 @@ class StepProvider {
 
     //create index
     await db.execute('''
-    CREATE INDEX idx_timestamp ON steps (timestamp ASC)
+    CREATE INDEX idx_timestamp ON $tableNameAcc (timestamp ASC)
     ''');
   }
 
