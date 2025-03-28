@@ -36,6 +36,6 @@ class PedometerDb {
   }
 
   Future<void> insertAccelerometersData(DateTime dateTime) async {
-    return await _stepProvider.insertAccData(timeStamp: dateTime);
+    return await _stepProvider.insertAccData(dateTime);
   }
 }

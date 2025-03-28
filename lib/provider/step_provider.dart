@@ -15,6 +15,7 @@ class StepProvider {
   Future initDatabase() async {
     var databasesPath = await getDatabasesPath();
     String path = "$databasesPath/pedometer_db.db";
+    String pathAcc = "$databasesPath/pedometer_dbAcc.db";
     db = await openDatabase(
       path,
       version: 1,
@@ -23,7 +24,7 @@ class StepProvider {
       onUpgrade: (Database db, int oldVersion, int newVersion) => {},
     );
     dbAcc = await openDatabase(
-      path,
+      pathAcc,
       version: 1,
       onConfigure: (Database db) => {},
       onCreate: (Database db, int version) => _createAccDatabase(db, version),
@@ -102,9 +103,7 @@ class StepProvider {
     );
   }
 
-  Future<void> insertAccData({
-    required DateTime timeStamp
-  }) async {
+  Future<void> insertAccData(DateTime timeStamp) async {
     Step? lastAccStep = await getLastAccStep();
     int total = (lastAccStep?.total ?? 0) + 1;
     debugPrint("** insertData total: $total, timestamp: ${timeStamp.millisecondsSinceEpoch}");
