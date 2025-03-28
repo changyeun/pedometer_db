@@ -108,7 +108,7 @@ class StepProvider {
     int total = (lastAccStep?.total ?? 0) + 1;
     debugPrint("** insertData total: $total, timestamp: ${timeStamp.millisecondsSinceEpoch}");
     await dbAcc?.insert(
-      tableName, // table name
+      tableNameAcc, // table name
       {
         'total': total,
         'last': 0,
