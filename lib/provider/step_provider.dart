@@ -55,7 +55,7 @@ class StepProvider {
         // steps = (lastStep.steps ?? 0) + event.steps;
         // 0부터 시작
         total = lastStep.total ?? 0;
-        plus = lastStep.total ?? 0; //더해야 할 값 재조정
+        plus = (total - last).abs(); //더해야 할 값 재조정
       } else {
         //재부팅이 되지 않고 계속 쌓일 경우
         total = event.steps + plus;
