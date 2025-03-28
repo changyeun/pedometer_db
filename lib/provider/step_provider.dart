@@ -94,6 +94,7 @@ class StepProvider {
   }
 
   Future<int> queryPedometerData(int startTime, int endTime) async {
+    int stepCount = 0;
     List<Map<String, Object?>>? firstMaps = await db?.rawQuery('SELECT * from $tableName where timestamp >= $startTime limit 1');
     List<Map<String, Object?>>? lastMaps = await db?.rawQuery('SELECT * from $tableName where timestamp < $endTime ORDER BY id desc limit 1');
 
@@ -107,11 +108,35 @@ class StepProvider {
     }
 
     if ((firstStep?.total ?? 0) == 0 || (lastStep?.total ?? 0) == 0) {
-      return 0;
+      stepCount = 0;
     } else {
       int realDataStep = (lastStep?.total ?? 0) - (firstStep?.total ?? 0);
-      return realDataStep < 0 ? 0 : realDataStep; //실제값 리턴
+      stepCount = realDataStep < 0 ? 0 : realDataStep;
     }
+
+
+    //accCount
+    int stepAccCount = 0;
+    List<Map<String, Object?>>? firstAccMaps = await db?.rawQuery('SELECT * from $tableNameAcc where timestamp >= $startTime limit 1');
+    List<Map<String, Object?>>? lastAccMaps = await db?.rawQuery('SELECT * from $tableNameAcc where timestamp < $endTime ORDER BY id desc limit 1');
+
+    Step? firstAccStep;
+    Step? lastAccStep;
+    if (firstAccMaps != null && firstAccMaps.isNotEmpty) {
+      firstAccStep = Step.fromMap(firstAccMaps.first);
+    }
+    if (lastAccMaps != null && lastAccMaps.isNotEmpty) {
+      lastAccStep = Step.fromMap(lastAccMaps.first);
+    }
+
+    if ((firstAccStep?.total ?? 0) == 0 || (lastAccStep?.total ?? 0) == 0) {
+      stepAccCount = 0;
+    } else {
+      int realDataStep = (lastAccStep?.total ?? 0) - (firstAccStep?.total ?? 0);
+      stepAccCount = realDataStep < 0 ? 0 : realDataStep;
+    }
+
+    return stepCount + stepAccCount;
   }
 
   Future<Step?> getLastStep() async {
