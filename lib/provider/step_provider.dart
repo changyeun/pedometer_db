@@ -87,7 +87,9 @@ class StepProvider {
       tableName, // table name
       {
         'total': total,
+        'last': 0,
         'timestamp': timeStamp.millisecondsSinceEpoch,
+        'plus': 0,
       }, // new post row data
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
@@ -135,7 +137,7 @@ class StepProvider {
       int realDataStep = (lastAccStep?.total ?? 0) - (firstAccStep?.total ?? 0);
       stepAccCount = realDataStep < 0 ? 0 : realDataStep;
     }
-
+    debugPrint("** stepCount total: $stepCount, stepAccCount: $stepAccCount");
     return stepCount + stepAccCount;
   }
 
