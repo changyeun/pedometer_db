@@ -54,12 +54,10 @@ class StepProvider {
         // delta_steps = event.steps;
         // steps = (lastStep.steps ?? 0) + event.steps;
         // 0부터 시작
-        if((lastStep.total ?? 0) - last > 0){
-          plus = ((lastStep.total ?? 0) - last); //더해야 할 값 재조정
-        } else {
-          plus = 1;
-        }
-        total = (lastStep.total ?? 0) + plus;
+        last = (lastStep.last ?? 0);
+        total = (lastStep.total ?? 0);
+        plus = (total - last); //더해야 할 값 재조정
+
       } else {
         //재부팅이 되지 않고 계속 쌓일 경우
         total = event.steps + plus;
